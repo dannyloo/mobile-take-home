@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.guestlogixtest.danny.takehometest.Main_Activity"
+    android:weightSum="1">
+
+
+    <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+        android:layout_weight="0.81">
+
+        <Button
+                android:text="Go"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="23dp"
+                android:id="@+id/button"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true" />
+
+
+        <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+            android:layout_above="@+id/button"
+            android:layout_below="@+id/endInput"
+            android:layout_alignStart="@+id/endInput"
+            android:layout_toStartOf="@+id/add_button">
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <LinearLayout
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_alignStart="@+id/endInput"
+                    android:layout_toStartOf="@+id/add_button"
+                    android:layout_above="@+id/button"
+                    android:layout_below="@+id/endInput"
+                    android:id="@+id/linearLayoutFormat"
+                    android:layout_width="wrap_content">
+
+
+                </LinearLayout>
+            </ScrollView>
+        </LinearLayout>
+
+        <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="textPersonName"
+                android:ems="10"
+                android:id="@+id/endInput"
+                android:textAppearance="@style/TextAppearance.AppCompat.Inverse"
+                android:hint="Enter ending IATA"
+            android:textAlignment="center"
+            android:layout_marginTop="80dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignStart="@+id/startInput" />
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:ems="10"
+            android:id="@+id/startInput"
+            android:hint="Enter beginning IATA"
+            android:textAppearance="@style/TextAppearance.AppCompat.Inverse"
+            android:textAlignment="center"
+            android:layout_above="@+id/add_button"
+            android:layout_centerHorizontal="true" />
+
+        <Button
+                android:text="+"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:id="@+id/add_button"
+                android:textSize="18sp"
+            android:layout_marginStart="25dp"
+            android:layout_alignTop="@+id/endInput"
+            android:layout_toEndOf="@+id/endInput" />
+
+
+    </RelativeLayout>
+
+</LinearLayout>
