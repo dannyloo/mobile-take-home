@@ -65,6 +65,7 @@ public class Main_Activity extends AppCompatActivity{
     List origin = new ArrayList();
     List destination = new ArrayList();
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -117,7 +118,7 @@ public class Main_Activity extends AppCompatActivity{
                     //Set map locations and launch map activity
                     System.out.println("valid");
                     Intent myIntent = new Intent(Main_Activity.this, MapsActivity.class);
-                    myIntent.putExtra("startID", startLoc);
+                    myIntent.putExtra("startID", startLoc.toUpperCase());
                     myIntent.putExtra("endID", endLoc);
                     startActivity(myIntent);
                     //setContentView(R.layout.activity_maps);
@@ -180,6 +181,7 @@ public class Main_Activity extends AppCompatActivity{
             throw new RuntimeException("Error in reading CSV file: "+ex);
         }
     }
+
 
     boolean validateRoutes(){
 
@@ -271,7 +273,7 @@ public class Main_Activity extends AppCompatActivity{
         //decrement from initial index to find destination
         while(start.equalsIgnoreCase(origin.get(temp).toString()) && !end.equalsIgnoreCase(destination.get(temp).toString())){
             //System.out.println("testdwon");
-            temp++;
+            temp--;
             if(start.equalsIgnoreCase(origin.get(temp).toString()) && end.equalsIgnoreCase(destination.get(temp).toString())){
                 System.out.println("found");
                 return index;
