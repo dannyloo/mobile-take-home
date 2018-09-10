@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">"Take Home Test "</string>
+    <string name="app_name">"Take Home Test - Danny "</string>
     <string name="title_activity_maps">Map</string>
-    <string name="title_activity_main">MainActivity</string>
+    <string name="title_activity_main">Guestlogix Take Home Test </string>
 </resources>

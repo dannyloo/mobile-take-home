@@ -39,7 +39,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private GoogleMap mMap;
     String startLoc;
     ArrayList<String> endLoc = new ArrayList<>();
-
+    ArrayList<String> airlineId = new ArrayList<>();
 
     List name = new ArrayList();
     List city = new ArrayList();
@@ -67,6 +67,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         if (extras != null){
             endLoc = (ArrayList<String>) getIntent().getSerializableExtra("endID");
             startLoc = extras.getString("startID");
+            airlineId = (ArrayList<String>) getIntent().getSerializableExtra("airlineID");
         }
 
         System.out.println("oncreate done");
@@ -113,6 +114,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 ("Airport Name: "+ name.get(startIndex) + "\n"+
                         "City: " + city.get(startIndex) + "\n"+
                         "Country: " + country.get(startIndex) + "\n"+
+                        "Airline ID: " + airlineId.get(startIndex) + "\n"+
                         "IATA: " + IATA.get(startIndex)).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
 
         mMap.moveCamera(CameraUpdateFactory.newLatLng(start));
@@ -124,6 +126,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     ("Airport Name: "+ name.get(endIndex.get(j)) + "\n"+
                             "City: " + city.get(endIndex.get(j)) + "\n"+
                             "Country: " + country.get(endIndex.get(j)) + "\n"+
+                            "Airline ID: " + airlineId.get(endIndex.get(j)) + "\n"+
                             "IATA: " + IATA.get(endIndex.get(j))).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
         }
 
@@ -170,7 +173,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         });
 
     }
-
 
     public void loadAirports(){
         InputStream is = getResources().openRawResource(R.raw.airports);

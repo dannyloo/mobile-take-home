@@ -1,6 +1,7 @@
 package com.guestlogixtest.danny.takehometest;
 
 import android.content.Intent;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.TextViewCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -8,6 +9,7 @@ import android.support.v7.widget.ButtonBarLayout;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewParent;
 import android.widget.Button;
 import android.widget.EditText;
 import android.app.Activity;
@@ -17,6 +19,7 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.ScrollView;
 
@@ -41,7 +44,9 @@ import java.util.logging.Handler;
 import java.util.logging.LogRecord;
 
 import static com.guestlogixtest.danny.takehometest.R.id.activity_main;
+import static com.guestlogixtest.danny.takehometest.R.id.button3;
 import static com.guestlogixtest.danny.takehometest.R.id.center;
+import static com.guestlogixtest.danny.takehometest.R.id.end;
 import static com.guestlogixtest.danny.takehometest.R.id.endInput;
 import static com.guestlogixtest.danny.takehometest.R.id.right_icon;
 import static com.guestlogixtest.danny.takehometest.R.id.right_side;
@@ -61,15 +66,25 @@ public class Main_Activity extends AppCompatActivity{
     ArrayList<Integer> inputID = new ArrayList<>();
     ArrayList<EditText> endInput = new ArrayList<>();
     ArrayList<String> endLoc = new ArrayList<>();
-    List airlineID = new ArrayList();
+    ArrayList<String> airlineID = new ArrayList();
     List origin = new ArrayList();
     List destination = new ArrayList();
+
+    LinearLayout ll;
+    ArrayList<EditText> et = new ArrayList<>();
+    LinearLayout.LayoutParams p;
+
+    int currEt = 0;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        ll = (LinearLayout) findViewById(R.id.linearLayoutFormat);
+        et.add(new EditText(this));
+        p = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT);
 
         loadRoutes();
         onStart();
@@ -83,7 +98,19 @@ public class Main_Activity extends AppCompatActivity{
         add_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Add_Line();
+                System.out.println("add line");
+                add_Line();
+            }
+        });
+
+        final Button remove_button = (Button) findViewById(R.id.button3);
+        remove_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(inputID.size() >= 1) {
+                    System.out.println("Remove line");
+                    remove_Line(v);
+                }
             }
         });
 
@@ -120,6 +147,7 @@ public class Main_Activity extends AppCompatActivity{
                     Intent myIntent = new Intent(Main_Activity.this, MapsActivity.class);
                     myIntent.putExtra("startID", startLoc.toUpperCase());
                     myIntent.putExtra("endID", endLoc);
+                    myIntent.putExtra("airlineID", airlineID);
                     startActivity(myIntent);
                     //setContentView(R.layout.activity_maps);
 
@@ -137,32 +165,53 @@ public class Main_Activity extends AppCompatActivity{
         });
     }
 
-    public void Add_Line() {
+    public void add_Line() {
         Button myButton = new Button(this);
-        myButton.setText("–");
+//        myButton.setText("–");
+//        RelativeLayout r1 = (RelativeLayout) findViewById(R.id.rl);
+//        RelativeLayout.LayoutParams r = new RelativeLayout.LayoutParams(135, 135);
+//        r1.addView(myButton,r);
 
-        LinearLayout ll = (LinearLayout) findViewById(R.id.linearLayoutFormat);
-        // add edittext
-        EditText et = new EditText(this);
-        LinearLayout.LayoutParams p = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT);
-        et.setLayoutParams(p);
-        et.setText("");
-        et.setHint("Enter next IATA");
-        et.setEms(10);
-        et.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-        TextViewCompat.setTextAppearance(et, android.R.style.TextAppearance_Small);
-        et.setId(numberOfLines+1);
-        inputID.add(et.getId());
-        ll.addView(et);
+        currEt++;
+        ll = (LinearLayout) findViewById(R.id.linearLayoutFormat);
+        et.add(new EditText(this));
+        p = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT);
+
+        //et.setLayoutParams(p);
+        et.get(currEt).setText("");
+        et.get(currEt).setHint("Enter next IATA");
+        et.get(currEt).setEms(10);
+        et.get(currEt).setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+        TextViewCompat.setTextAppearance(et.get(currEt), android.R.style.TextAppearance_Small);
+        et.get(currEt).setId(numberOfLines+1);
+        inputID.add(et.get(currEt).getId());
+        ll.addView(et.get(currEt),p);
+        System.out.println(inputID);
 
 //        LinearLayout bl = (LinearLayout) findViewById(R.id.linearLayoutFormat);
-//        LinearLayout.LayoutParams b = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 135);
+//        LinearLayout.LayoutParams b = new LinearLayout.LayoutParams(135, 135);
 //        bl.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_END);
-//        bl.addView(myButton, b);
+//        bl.addView(myButton,b);
 
-        //System.out.println(inputID);
-;
         numberOfLines++;
+
+    }
+
+    public void remove_Line(View v){
+//        LinearLayout ll = (LinearLayout) findViewById(R.id.linearLayoutFormat);
+//        EditText et = new EditText(this);
+
+        System.out.println(et);
+        System.out.println("rev");
+        ll.removeView(et.get(currEt));
+        if(currEt > 0) {
+            inputID.remove(currEt-1);
+            currEt--;
+            numberOfLines--;
+        }
+        System.out.println(currEt);
+        System.out.println("inputId" +inputID);
+
     }
 
     public void loadRoutes(){
