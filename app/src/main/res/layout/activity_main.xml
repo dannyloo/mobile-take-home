@@ -19,15 +19,6 @@
         android:layout_weight="0.81"
         android:id="@+id/rl">
 
-        <Button
-                android:text="Go"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="23dp"
-                android:id="@+id/button"
-                android:layout_alignParentBottom="true"
-                android:layout_centerHorizontal="true" />
-
 
         <LinearLayout
                 android:orientation="vertical"
@@ -87,19 +78,6 @@
             android:layout_alignTop="@+id/add_button"
             android:layout_toEndOf="@+id/add_button" />
 
-        <EditText
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:inputType="textPersonName"
-                android:ems="10"
-                android:id="@+id/endInput"
-                android:textAppearance="@style/TextAppearance.AppCompat.Inverse"
-                android:hint="Enter ending IATA"
-            android:textAlignment="center"
-            android:layout_marginTop="78dp"
-            android:layout_below="@+id/textView2"
-            android:layout_alignStart="@+id/startInput" />
-
         <TextView
             android:text='Please enter a start and end IATA. You can enter multiple routes by using the "+" and "-" functionality,'
             android:layout_width="wrap_content"
@@ -121,6 +99,27 @@
             android:layout_marginTop="11dp"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true" />
+
+        <Button
+                android:text="Go"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+            android:id="@+id/button"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true" />
+
+        <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="textPersonName"
+                android:ems="10"
+                android:id="@+id/endInput"
+                android:textAppearance="@style/TextAppearance.AppCompat.Inverse"
+                android:hint="Enter ending IATA"
+            android:textAlignment="center"
+            android:layout_marginTop="70dp"
+            android:layout_below="@+id/textView2"
+            android:layout_alignStart="@+id/startInput" />
 
 
     </RelativeLayout>

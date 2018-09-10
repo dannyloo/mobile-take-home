@@ -6,7 +6,7 @@ Email: dloo.uwo@gmail.com
 The features of the app are as follows:
 
 - User enters the beginning and ending IATA locations 
-- The user can add as many locations as they want by pressing the "+" button
+- The user can add as many locations as they want by pressing the "+" button, and scrolling through the list
 - Likewise a location can be removed by pressing the "-" button
 - The resulting route will be a line drawn from start -> destination 1 -> destination 2 -> etc to simulate
 the route of a plane. 
@@ -15,3 +15,4 @@ the route of a plane.
 - If the user enters an incorrect start, they will be told the start is not valid 
 - If the user enters an incorrect destination, they will be prompt on which destination is incorrect
 - Only valid routes are mapped 
+- Cannot have a blank start/destination
