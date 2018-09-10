@@ -311,8 +311,12 @@ public class Main_Activity extends AppCompatActivity{
 
         //increment from initial index to find destination
         while(start.equals(origin.get(index)) && !end.equals(destination.get(index))){
-            //System.out.println("testup");
+            System.out.println(destination.get(index));
             index++;
+            if(index >= origin.size()){
+                System.out.println("breakup");
+                break;
+            }
             if(start.equals(origin.get(index)) && end.equals(destination.get(index))){
                 //System.out.println("found");
                 return index;
@@ -323,6 +327,10 @@ public class Main_Activity extends AppCompatActivity{
         while(start.equalsIgnoreCase(origin.get(temp).toString()) && !end.equalsIgnoreCase(destination.get(temp).toString())){
             //System.out.println("testdwon");
             temp--;
+            if(temp < 0){
+                System.out.println("breakdwn");
+                break;
+            }
             if(start.equalsIgnoreCase(origin.get(temp).toString()) && end.equalsIgnoreCase(destination.get(temp).toString())){
                 System.out.println("found");
                 return index;
@@ -332,11 +340,4 @@ public class Main_Activity extends AppCompatActivity{
         return -1;
     }
 
-    public void setEndLoc(ArrayList<String> endLoc) {
-        this.endLoc = endLoc;
-    }
-
-    public void setStartLoc(String startLoc) {
-        this.startLoc = startLoc;
-    }
 }

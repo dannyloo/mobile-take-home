@@ -3,7 +3,7 @@
 Created by: Danny Loo
 Email: dloo.uwo@gmail.com
 
-The features of the app are as follows:
+How the app works:
 
 - User enters the beginning and ending IATA locations 
 - The user can add as many locations as they want by pressing the "+" button, and scrolling through the list
@@ -16,3 +16,5 @@ the route of a plane.
 - If the user enters an incorrect destination, they will be prompt on which destination is incorrect
 - Only valid routes are mapped 
 - Cannot have a blank start/destination
+
+The release APK can be also tested. It is found in app/app-release.apk

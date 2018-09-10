@@ -84,12 +84,20 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         //Start marker
         startIndex = Collections.binarySearch(IATA,startLoc.toUpperCase());
+        if(startIndex < 0){
+            //should never enter but throws error if does
+            startIndex=0;
+        }
         System.out.println(startIndex);
         System.out.println(name.get(startIndex));
 
         endIndex = new ArrayList<>();
         for(int i = 0; i < endLoc.size(); i++){
             endIndex.add(Collections.binarySearch(IATA,endLoc.get(i).toString().toUpperCase()));
+            if(endIndex.get(i) < 0){
+                //should never enter but throws error if does
+                endIndex.add(0);
+            }
         }
 
     }
