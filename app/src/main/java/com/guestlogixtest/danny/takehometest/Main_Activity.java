@@ -1,35 +1,14 @@
 package com.guestlogixtest.danny.takehometest;
 
 import android.content.Intent;
-import android.support.v4.view.ViewPager;
 import android.support.v4.widget.TextViewCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.ButtonBarLayout;
-import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewParent;
-import android.widget.Button;
-import android.widget.EditText;
-import android.app.Activity;
-import android.os.Bundle;
-import android.view.View;
-import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
-import android.widget.ScrollView;
-
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapsInitializer;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -39,26 +18,12 @@ import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.ThreadFactory;
-import java.util.logging.Handler;
-import java.util.logging.LogRecord;
 
-import static com.guestlogixtest.danny.takehometest.R.id.activity_main;
-import static com.guestlogixtest.danny.takehometest.R.id.button3;
-import static com.guestlogixtest.danny.takehometest.R.id.center;
-import static com.guestlogixtest.danny.takehometest.R.id.end;
-import static com.guestlogixtest.danny.takehometest.R.id.endInput;
-import static com.guestlogixtest.danny.takehometest.R.id.right_icon;
-import static com.guestlogixtest.danny.takehometest.R.id.right_side;
-import static com.guestlogixtest.danny.takehometest.R.id.strict_sandbox;
-
-import  android.os.Message;
 import android.widget.Toast;
 
 public class Main_Activity extends AppCompatActivity{
 
     String startLoc;
-    private GoogleMap mMap;
     EditText startInput;
 
     Button submitButton;
@@ -85,6 +50,7 @@ public class Main_Activity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //Linear layouts never actually used
         ll = (LinearLayout) findViewById(R.id.linearLayoutFormat);
         et.add(new EditText(this));
         p = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT);
@@ -98,25 +64,25 @@ public class Main_Activity extends AppCompatActivity{
         super.onStart();
 
         //Initialize buttons
-        final Button add_button = (Button) findViewById(R.id.add_button);
-        add_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                System.out.println("add line");
-                //Add lines dynamically adds and removes lines but didn't have time to change up the code for multiple routes
-                //add_Line();
-            }
-        });
-        final Button remove_button = (Button) findViewById(R.id.button3);
-        remove_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(inputID.size() >= 1) {
-                    System.out.println("Remove line");
-                    remove_Line(v);
-                }
-            }
-        });
+//        final Button add_button = (Button) findViewById(R.id.add_button);
+//        add_button.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                System.out.println("add line");
+//                //Add lines dynamically adds and removes lines but didn't have time to change up the code for multiple routes
+//                //add_Line();
+//            }
+//        });
+//        final Button remove_button = (Button) findViewById(R.id.button3);
+//        remove_button.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if(inputID.size() >= 1) {
+//                    System.out.println("Remove line");
+//                    remove_Line(v);
+//                }
+//            }
+//        });
 
         startInput = (EditText) findViewById(R.id.startInput);
         submitButton = (Button) findViewById(R.id.button);
@@ -171,6 +137,7 @@ public class Main_Activity extends AppCompatActivity{
 
             }
         });
+
     }
 
     public void add_Line() {
@@ -227,9 +194,6 @@ public class Main_Activity extends AppCompatActivity{
 
 
     boolean validateRoutes(){
-
-        int count = 0;
-
         //check for empty
         for(int j = 0; j < endLoc.size(); j++){
             if(endLoc.get(j).isEmpty()){
@@ -250,37 +214,26 @@ public class Main_Activity extends AppCompatActivity{
                     Toast.LENGTH_SHORT).show();
             return false;//not found
         }
-
-        //find routes
-        if(endLoc.size() == 1) {
-            //routes.add(endLoc.get(0).toUpperCase());
-            if (binarySearch(startLoc.toUpperCase(), endLoc.get(0).toUpperCase(), startLoc.toUpperCase())) {
-                System.out.println("One destination valid");
-                return true;
-            }
+        if (binarySearch(startLoc.toUpperCase(), endLoc.get(0).toUpperCase(), startLoc.toUpperCase())) {
+            System.out.println("One destination valid");
+            return true;
         }
-        else{
-            //routes.add(endLoc.get(0).toUpperCase());
-            //binarySearch(startLoc.toUpperCase(), endLoc.get(0).toUpperCase(), startLoc.toUpperCase());
-            //storeIndex.clear();
-            //a = 0;
-            System.out.println("Start: " + endLoc.get(0).toUpperCase() + " end " + endLoc.get(1).toUpperCase());
-            if (binarySearch(endLoc.get(0).toUpperCase(), endLoc.get(1).toUpperCase(), endLoc.get(0).toUpperCase()) && binarySearch(startLoc.toUpperCase(), endLoc.get(0).toUpperCase(), startLoc.toUpperCase())) {
-                System.out.println("two destination valid");
-                return true;
-            }
-//            for(int i = 0; i < endLoc.size() - 1; i++) {
-//                if (binarySearch(endLoc.get(i).toUpperCase(),endLoc.get(i+1).toUpperCase(), endLoc.get(i).toUpperCase())){
-//                    count++;
-//                }
-//                System.out.println("multi destinations");
-//            }
-//            if(count == endLoc.size() - 1){
-//                System.out.println("Multiple destination valid");
+
+//        //find dynamically added routes
+//        if(endLoc.size() == 1) {
+//            //routes.add(endLoc.get(0).toUpperCase());
+//            if (binarySearch(startLoc.toUpperCase(), endLoc.get(0).toUpperCase(), startLoc.toUpperCase())) {
+//                System.out.println("One destination valid");
 //                return true;
 //            }
-        }
-
+//        }
+//        else{
+//            System.out.println("Start: " + endLoc.get(0).toUpperCase() + " end " + endLoc.get(1).toUpperCase());
+//            if (binarySearch(endLoc.get(0).toUpperCase(), endLoc.get(1).toUpperCase(), endLoc.get(0).toUpperCase()) && binarySearch(startLoc.toUpperCase(), endLoc.get(0).toUpperCase(), startLoc.toUpperCase())) {
+//                System.out.println("two destination valid");
+//                return true;
+//            }
+//        }
 
         //no destination
         return false;
@@ -340,11 +293,6 @@ public class Main_Activity extends AppCompatActivity{
             storeIndex.add(i);
         }
 
-//        System.out.println("Start index: " + index);
-//        System.out.println("End index: " + endIndex);
-//        System.out.println("Start loc: " + start);
-//        System.out.println("End loc: " + end);
-
         //if the start equals end return true
         if(start.equals(origin.get(index)) && end.equals(destination.get(index))){
             System.out.println("found");
@@ -390,5 +338,4 @@ public class Main_Activity extends AppCompatActivity{
         binarySearch((String)destination.get(storeIndex.get(a-1)), end, OGStart);
         return true;
     }
-
 }

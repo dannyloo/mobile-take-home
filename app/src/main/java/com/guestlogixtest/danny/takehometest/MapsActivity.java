@@ -144,7 +144,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         // Add ending loc markers
         for(int j = 0; j < endLoc.size(); j++) {
             mEnd.add(new LatLng(Double.parseDouble(latitude.get(endIndex.get(j))), Double.parseDouble(longitude.get(endIndex.get(j)))));
-            mMap.addMarker(new MarkerOptions().position(mEnd.get(j)).title("Destination #: " + (j+1)).snippet
+            mMap.addMarker(new MarkerOptions().position(mEnd.get(j)).title("Destination Airport").snippet
                     ("Airport Name: "+ name.get(endIndex.get(j)) + "\n"+
                             "City: " + city.get(endIndex.get(j)) + "\n"+
                             "Country: " + country.get(endIndex.get(j)) + "\n"+
