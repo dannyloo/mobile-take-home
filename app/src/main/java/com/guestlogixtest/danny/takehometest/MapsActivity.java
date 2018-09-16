@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.support.v7.text.AllCapsTransformationMethod;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -37,7 +38,7 @@ import static com.guestlogixtest.danny.takehometest.R.id.map;
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
-    String startLoc;
+    ArrayList<String> startLocs = new ArrayList<>();
     ArrayList<String> endLoc = new ArrayList<>();
     ArrayList<String> airlineId = new ArrayList<>();
 
@@ -50,7 +51,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     ArrayList<Double> airportLat = new ArrayList<>();
     ArrayList<Double> airportLong = new ArrayList<>();
     ArrayList<Integer> endIndex = new ArrayList<>();
-    int startIndex;
+    ArrayList<Integer> startIndex = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,7 +67,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         Bundle extras = getIntent().getExtras();
         if (extras != null){
             endLoc = (ArrayList<String>) getIntent().getSerializableExtra("endID");
-            startLoc = extras.getString("startID");
+            startLocs = (ArrayList<String>) getIntent().getSerializableExtra("startID");
             airlineId = (ArrayList<String>) getIntent().getSerializableExtra("airlineID");
         }
 
@@ -78,19 +79,21 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     protected void onStart() {
         super.onStart();
-        System.out.println(startLoc);
+        System.out.println(startLocs);
         System.out.println(endLoc);
         System.out.println("test complete");
 
-        //Start marker
-        startIndex = Collections.binarySearch(IATA,startLoc.toUpperCase());
-        if(startIndex < 0){
-            //should never enter but throws error if does
-            startIndex=0;
+        //Start markers
+        startIndex = new ArrayList<>();
+        for(int i = 0; i < startLocs.size(); i++){
+            startIndex.add(Collections.binarySearch(IATA,startLocs.get(i).toString().toUpperCase()));
+            if(startIndex.get(i) < 0){
+                //should never enter but throws error if does
+                startIndex.add(0);
+            }
         }
-        System.out.println(startIndex);
-        System.out.println(name.get(startIndex));
 
+        //end markers
         endIndex = new ArrayList<>();
         for(int i = 0; i < endLoc.size(); i++){
             endIndex.add(Collections.binarySearch(IATA,endLoc.get(i).toString().toUpperCase()));
@@ -115,19 +118,30 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         ArrayList<LatLng> mEnd = new ArrayList<>();
+        ArrayList<LatLng> mStart = new ArrayList<>();
 
-        // Add a marker
-        LatLng start = new LatLng(Double.parseDouble(latitude.get(startIndex)), Double.parseDouble(longitude.get(startIndex)));
-        mMap.addMarker(new MarkerOptions().position(start).title("Starting Airport").snippet
-                ("Airport Name: "+ name.get(startIndex) + "\n"+
-                        "City: " + city.get(startIndex) + "\n"+
-                        "Country: " + country.get(startIndex) + "\n"+
-                        "Airline ID: " + airlineId.get(startIndex) + "\n"+
-                        "IATA: " + IATA.get(startIndex)).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
+        // Add connecting flight markers if any
+        for (int w = 0; w < startLocs.size()-1; w++) {
+            mStart.add(new LatLng(Double.parseDouble(latitude.get(startIndex.get(w))), Double.parseDouble(longitude.get(startIndex.get(w)))));
+            mMap.addMarker(new MarkerOptions().position(mStart.get(w)).title("Connecting flight #: " + (startLocs.size() - w -1)).snippet
+                    ("Airport Name: " + name.get(startIndex.get(w)) + "\n" +
+                            "City: " + city.get(startIndex.get(w)) + "\n" +
+                            "Country: " + country.get(startIndex.get(w)) + "\n" +
+                            "Airline ID: " + airlineId.get(startIndex.get(w)) + "\n" +
+                            "IATA: " + IATA.get(startIndex.get(w))).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
+        }
 
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(start));
+        // Add starting airport marker and camera location
+        mStart.add(new LatLng(Double.parseDouble(latitude.get(startIndex.get(startLocs.size()-1))), Double.parseDouble(longitude.get(startIndex.get(startLocs.size()-1)))));
+        mMap.addMarker(new MarkerOptions().position(mStart.get(startLocs.size()-1)).title("Starting Airport").snippet
+                ("Airport Name: " + name.get(startIndex.get(startLocs.size()-1)) + "\n" +
+                        "City: " + city.get(startIndex.get(startLocs.size()-1)) + "\n" +
+                        "Country: " + country.get(startIndex.get(startLocs.size()-1)) + "\n" +
+                        "Airline ID: " + airlineId.get(startIndex.get(startLocs.size()-1)) + "\n" +
+                        "IATA: " + IATA.get(startIndex.get(startLocs.size()-1))).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(mStart.get(startLocs.size()-1)));
 
-
+        // Add ending loc markers
         for(int j = 0; j < endLoc.size(); j++) {
             mEnd.add(new LatLng(Double.parseDouble(latitude.get(endIndex.get(j))), Double.parseDouble(longitude.get(endIndex.get(j)))));
             mMap.addMarker(new MarkerOptions().position(mEnd.get(j)).title("Destination #: " + (j+1)).snippet
@@ -138,18 +152,21 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                             "IATA: " + IATA.get(endIndex.get(j))).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
         }
 
-        connectMarkers(Double.parseDouble(latitude.get(startIndex)), Double.parseDouble(longitude.get(startIndex)),
-                Double.parseDouble(latitude.get(endIndex.get(0))), Double.parseDouble(longitude.get(endIndex.get(0))));
-
+        //Connects markers
         for(int p = 0; p < endLoc.size()-1; p++){
             connectMarkers(Double.parseDouble(latitude.get(endIndex.get(p))), Double.parseDouble(longitude.get(endIndex.get(p))),
                     Double.parseDouble(latitude.get(endIndex.get(p+1))), Double.parseDouble(longitude.get(endIndex.get(p+1))));
         }
+        for(int n = 0; n < startLocs.size()-1; n++){
+            connectMarkers(Double.parseDouble(latitude.get(startIndex.get(n))), Double.parseDouble(longitude.get(startIndex.get(n))),
+                    Double.parseDouble(latitude.get(startIndex.get(n+1))), Double.parseDouble(longitude.get(startIndex.get(n+1))));
+        }
+            connectMarkers(Double.parseDouble(latitude.get(startIndex.get(0))), Double.parseDouble(longitude.get(startIndex.get(0))),
+            Double.parseDouble(latitude.get(endIndex.get(0))), Double.parseDouble(longitude.get(endIndex.get(0))));
 
 
-
+        //Custom snippet
         mMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
-
             @Override
             public View getInfoWindow(Marker arg0) {
                 return null;
