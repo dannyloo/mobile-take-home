@@ -18,9 +18,9 @@ Requirements can be found here: https://github.com/Guestlogix/mobile-take-home
 
 		ie: 	YVR > OTP = YVR > FRA > IST > OTP 	
 	
-		YYZ > ONT = YYZ > DEN > ONT	
+			YYZ > ONT = YYZ > DEN > ONT	
 		
-		YYZ > KKW = Route does not exist	
+			YYZ > KKW = Route does not exist	
 		
 The routes are found using breadth width search and optimized for the minimum amount of connecting flights. Also the connecting flight are optimized alphabetically, which is why the YVR > OTP flight is serviced through FRA airport instead of the MUC airport as 'F' comes before 'M'. This optimization results in a faster search			
 	
