@@ -6,7 +6,6 @@ Email: dloo.uwo@gmail.com
 ********************V1.1********************
 ********************Sept 16, 2018********************
 
-How the app works:
 Requirements can be found here: https://github.com/Guestlogix/mobile-take-home
 
 - User enters the beginning and ending IATA airport locations (airport and airline data can be found in "/data" folder).
@@ -17,7 +16,7 @@ Requirements can be found here: https://github.com/Guestlogix/mobile-take-home
 - Routes that are not direct flights and that are servicable through other airports will be displayed
 
 
-	ie: 	YVR > OTP = YVR > FRA > IST > OTP 	
+		ie: 	YVR > OTP = YVR > FRA > IST > OTP 	
 	
 		YYZ > ONT = YYZ > DEN > ONT	
 		
