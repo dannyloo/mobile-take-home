@@ -33,9 +33,9 @@ The release APK can be also tested. It is found in app/app-release.apk
 Changes made are as follows: 
 
 - Routes that are not direct flights and that are servicable through other airports will be displayed
-	ie: 	YVR > OTP = YVR > FRA > IST > OTP 
-		YYZ > ONT = YYZ > DEN > ONT
-		YYZ > KKW = Route does not exist
+	ie: 	YVR > OTP = YVR > FRA > IST > OTP 	
+		YYZ > ONT = YYZ > DEN > ONT	
+		YYZ > KKW = Route does not exist	
 		
 The routes are found using breadth width search and optimized for the minimum amount of connecting flights. Also the connecting flight are optimized alphabetically, which is why the YVR > OTP flight is serviced through FRA airport instead of the MUC airport as 'F' comes before 'M'. This optimization results in a faster search
 			
