@@ -15,6 +15,7 @@ Requirements can be found here: https://github.com/Guestlogix/mobile-take-home
 - If the user enters an incorrect destination, they will be notified.
 - Cannot have a blank start/destination
 - Routes that are not direct flights and that are servicable through other airports will be displayed
+
 	ie: 	YVR > OTP = YVR > FRA > IST > OTP 	
 	
 		YYZ > ONT = YYZ > DEN > ONT	
