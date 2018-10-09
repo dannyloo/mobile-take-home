@@ -4,8 +4,7 @@ Created by: Danny Loo
 
 Email: dloo.uwo@gmail.com
 
-## V1.1
-## Sept 16, 2018
+## V1.1 - Sept 16, 2018
 
 Requirements can be found here: https://github.com/Guestlogix/mobile-take-home
 
