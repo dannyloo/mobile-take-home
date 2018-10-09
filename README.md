@@ -1,6 +1,7 @@
 ﻿# Guestlogix Take Home Test - Mobile
 
 Created by: Danny Loo
+
 Email: dloo.uwo@gmail.com
 
 ********************V1.1********************
